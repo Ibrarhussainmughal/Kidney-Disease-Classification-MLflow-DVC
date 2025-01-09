@@ -1,0 +1,16 @@
+Metadata-Version: 2.2
+Name: cnnClassifier
+Version: 0.0.0
+Summary: A small python package for CNN app
+Home-page: https://github.com/Ibrarhussainmughal/Kidney-Disease-Classification-Deep-Learning-Project
+Author: Ibrarhussainmughal
+Author-email: ibrarali69.ia@gmail.com
+Project-URL: Bug Tracker, https://github.com/Ibrarhussainmughal/Kidney-Disease-Classification-Deep-Learning-Project/issues
+Dynamic: author
+Dynamic: author-email
+Dynamic: description
+Dynamic: home-page
+Dynamic: project-url
+Dynamic: summary
+
+# Kidney-Disease-Classification-MLflow-DVC
