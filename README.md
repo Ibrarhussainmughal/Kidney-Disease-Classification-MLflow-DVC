@@ -1,32 +1,39 @@
-# Kidney-Disease-Classification-MLflow-DVC
+# Kidney Disease Classification — End-to-End ML System
 
+## 📌 Project Overview
+This project implements a **production-style end-to-end machine learning pipeline** to classify
+the presence of kidney disease based on clinical features.
 
-## Workflows
-1. Update config.yaml
-2. Update secrets.yaml [Optional]
-3. Update params.yaml
-4. Update the entity
-5. Update the configuration manager in src config
-6. Update the components
-7. Update the pipeline 
-8. Update the main.py
-9. Update the dvc.yaml
-10. app.py
+The focus is not only on model accuracy, but on building a **reproducible, maintainable, and scalable ML system**
+using modern MLOps practices.
 
-# How to run?
-### STEPS:
-Clone the repository
-```bash
-https://github.com/Ibrarhussainmughal/Kidney-Disease-Classification-MLflow-DVC
-```
-### STEP 01- Create a conda environment after opening the repository
-```bash
-conda create -n kidney python=3.8 -y
-```
-```bash
-conda activate kidney
-```
-### STEP 02- install the requirements
-```bash
-pip install -r requirements.txt
-```
+---
+
+## 🎯 Problem Statement
+Early detection of kidney disease is critical for effective treatment.
+This system uses machine learning to classify patient records and assist in early diagnosis.
+
+---
+
+## 🧠 Solution Approach
+The project follows a structured ML workflow:
+
+1. Data ingestion with version control (DVC)
+2. Data preprocessing and feature engineering
+3. Model training and evaluation
+4. Experiment tracking using MLflow
+5. Reproducible pipelines with configuration management
+
+---
+
+## 🛠 Tech Stack
+- Python
+- Pandas, NumPy
+- Scikit-learn
+- MLflow (experiment tracking)
+- DVC (data versioning)
+- Docker (optional / future enhancement)
+
+---
+
+## 📂 Project Structure
