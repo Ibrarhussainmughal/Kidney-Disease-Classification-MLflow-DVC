@@ -37,3 +37,32 @@ The project follows a structured ML workflow:
 ---
 
 ## 📂 Project Structure
+
+src/
+├── components/
+│ ├── data_ingestion.py
+│ ├── data_transformation.py
+│ ├── model_trainer.py
+│ └── model_evaluation.py
+│
+├── pipeline/
+│ ├── train_pipeline.py
+│ └── predict_pipeline.py
+│
+├── utils/
+│ ├── logger.py
+│ └── exception.py
+│
+config/
+artifacts/
+notebooks/
+
+
+---
+
+## 🚀 How to Run
+```bash
+pip install -r requirements.txt
+dvc pull
+python src/pipeline/train_pipeline.py
+
