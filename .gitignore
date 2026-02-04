@@ -160,3 +160,15 @@ cython_debug/
 #.idea/
 
 artifacts/*
+!artifacts/.gitkeep
+*.h5
+*.zip
+logs/*
+scores.json
+.DS_Store
+.vscode/
+.idea/
+*.log
+mlruns/
+.dvc/config.local
+inputImage.jpg

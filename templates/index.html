@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Kidney Disease Classification</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --secondary: #ec4899;
+            --bg: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text: #f8fafc;
+        }
+
+        body {
+            background-color: var(--bg);
+            background-image: radial-gradient(circle at top right, rgba(79, 70, 229, 0.1), transparent),
+                              radial-gradient(circle at bottom left, rgba(236, 72, 153, 0.1), transparent);
+            color: var(--text);
+            font-family: 'Inter', -apple-system, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 800px;
+        }
+
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 3rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease;
+        }
+
+        .header-section h1 {
+            font-weight: 800;
+            background: linear-gradient(to right, #818cf8, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .header-section p {
+            color: #94a3b8;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .upload-zone {
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .upload-zone:hover {
+            border-color: var(--primary);
+            background: rgba(79, 70, 229, 0.05);
+        }
+
+        #image-preview {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 12px;
+            display: none;
+            margin: 1rem auto;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-custom {
+            padding: 0.8rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .btn-predict {
+            background: linear-gradient(135deg, var(--primary), #6366f1);
+            border: none;
+            color: white;
+            width: 100%;
+            margin-top: 2rem;
+        }
+
+        .btn-predict:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.4);
+            color: white;
+        }
+
+        .result-box {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            display: none;
+            text-align: center;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        .loading {
+            display: none;
+            margin-top: 1rem;
+        }
+
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+            color: var(--primary);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        #file-input { display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="glass-card">
+            <div class="header-section">
+                <h1>Kidney CT-Scan AI</h1>
+                <p>Advanced Deep Learning Classification System</p>
+            </div>
+
+            <div class="upload-zone" onclick="document.getElementById('file-input').click()">
+                <div id="upload-prompt">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="mb-3 text-primary" viewBox="0 0 16 16">
+                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                    </svg>
+                    <h5>Click to upload CT scan image</h5>
+                    <p class="text-muted small">PNG, JPG up to 10MB</p>
+                </div>
+                <img id="image-preview" src="#" alt="Preview">
+                <input type="file" id="file-input" accept="image/*" onchange="previewImage(this)">
+            </div>
+
+            <button class="btn btn-custom btn-predict" id="send" onclick="predict()">
+                Analyze Image
+            </button>
+
+            <div class="loading text-center">
+                <div class="spinner-border" role="status"></div>
+                <p class="mt-2">Running Neural Network Inference...</p>
+            </div>
+
+            <div class="result-box" id="result-container">
+                <h4 class="text-muted mb-2">Diagnosis Result:</h4>
+                <h2 id="result-text" style="font-weight: 800; color: #10b981;"></h2>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+        let base64Image = "";
+
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#image-preview').attr('src', e.target.result).fadeIn();
+                    $('#upload-prompt').hide();
+                    base64Image = e.target.result.split(',')[1];
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function predict() {
+            if (!base64Image) {
+                alert("Please upload an image first.");
+                return;
+            }
+
+            $('.loading').show();
+            $('#result-container').hide();
+            $('#send').prop('disabled', true);
+
+            const url = "/predict";
+            
+            fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ image: base64Image })
+            })
+            .then(response => response.json())
+            .then(data => {
+                $('.loading').hide();
+                $('#send').prop('disabled', false);
+                const result = data[0].image;
+                $('#result-text').text(result.toUpperCase());
+                
+                if (result.toLowerCase() === 'tumor') {
+                    $('#result-text').css('color', '#ef4444');
+                } else {
+                    $('#result-text').css('color', '#10b981');
+                }
+                
+                $('#result-container').fadeIn();
+            })
+            .catch(error => {
+                $('.loading').hide();
+                $('#send').prop('disabled', false);
+                alert("Error during prediction. Make sure the server is running.");
+                console.error(error);
+            });
+        }
+    </script>
+</body>
+</html>

@@ -16,4 +16,7 @@ scipy
 Flask
 Flask-Cors
 gdown
+pytest
+fastapi
+uvicorn
 -e .
