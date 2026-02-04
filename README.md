@@ -22,7 +22,7 @@ This project is a **Production-Ready Deep Learning System** designed to classify
 
 ---
 
-## � Visual Showcase
+## 🎨 Visual Showcase
 
 ### Modern Dark-Mode Dashboard
 ![Dashboard](docs/dashboard.png)
@@ -32,7 +32,7 @@ This project is a **Production-Ready Deep Learning System** designed to classify
 
 ---
 
-## �🏗️ Project Architecture
+## 🏗️ Project Architecture
 The project follows a modular "Entity-Config-Component-Pipeline" structure:
 1. **Config**: Centralized configuration in `config.yaml`.
 2. **Entity**: Data classes for structured configuration.
