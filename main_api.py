@@ -74,3 +74,5 @@ async def predictImage(file: UploadFile = File(...)):
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8080)
+
+# Force Deployment: 02/05/2026 12:14:48
