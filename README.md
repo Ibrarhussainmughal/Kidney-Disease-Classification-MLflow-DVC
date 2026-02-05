@@ -17,8 +17,19 @@ This project is a **Production-Ready Deep Learning System** designed to classify
 - **MLflow Integration**: Full experiment tracking (parameters, metrics, and model versioning).
 - **DVC (Data Version Control)**: Pipeline orchestration and data versioning for reproducibility.
 - **Premium User Interface**: Modern Dark-Mode Web Dashboard (FastAPI/HTML/CSS) with Glassmorphism.
+- **High Performance**: Achieved **93.5% Accuracy** on Kidney CT scan classification.
 - **Automated API Documentation**: Full Swagger/OpenAPI documentation for developer-friendly integration.
 - **Data & Model Versioning**: DVC orchestrated pipelines with optional S3 remote storage.
+
+---
+
+## 📈 Model Performance
+| Metric | Value |
+|--------|-------|
+| **Accuracy** | **93.53%** |
+| **Loss** | **0.4454** |
+| **Epochs** | 10 |
+| **Base Model** | VGG16 (Transfer Learning) |
 
 ---
 

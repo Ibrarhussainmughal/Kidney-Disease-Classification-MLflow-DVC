@@ -172,3 +172,6 @@ scores.json
 mlruns/
 .dvc/config.local
 inputImage.jpg
+.python-version
+Thumbs.db
+desktop.ini

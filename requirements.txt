@@ -19,4 +19,5 @@ gdown
 pytest
 fastapi
 uvicorn
+python-multipart
 -e .
