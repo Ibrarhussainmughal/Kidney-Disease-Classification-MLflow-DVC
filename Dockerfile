@@ -1,9 +1,12 @@
-FROM python:3.10-slim-buster
+FROM tensorflow/tensorflow:2.18.0
 
-RUN apt-get update -y && apt-get install -y awscli
 WORKDIR /app
 
-COPY . /app
-RUN pip install -r requirements.txt
+COPY . .
 
+RUN pip install --upgrade pip && \
+    pip install --default-timeout=1000 -r requirements.txt
+
+# Run API
 CMD ["uvicorn", "main_api:app", "--host", "0.0.0.0", "--port", "8080"]
+
