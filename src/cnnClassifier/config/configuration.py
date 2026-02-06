@@ -50,6 +50,7 @@ class ConfigurationManager:
             root_dir=config.root_dir,
             STATUS_FILE=config.STATUS_FILE,
             ALL_REQUIRED_FILES=config.ALL_REQUIRED_FILES,
+            unzip_dir=Path(self.config.data_ingestion.unzip_dir)
         )
 
         return data_validation_config
@@ -92,9 +93,10 @@ class ConfigurationManager:
         return training_config
 
     def get_evaluation_config(self) -> EvaluationConfig:
+        training_data = os.path.join(self.config.data_ingestion.unzip_dir, "kidney-ct-scan-image")
         eval_config = EvaluationConfig(
-            path_of_model=Path("artifacts/training/model.h5"),
-            training_data=Path("artifacts/data_ingestion/kidney-ct-scan-image"),
+            path_of_model=Path(self.config.training.trained_model_path),
+            training_data=Path(training_data),
             mlflow_uri="https://dagshub.com/Ibrarhussainmughal/Kidney-Disease-Classification-MLflow-DVC.mlflow",
             all_params=self.params,
             params_image_size=self.params.IMAGE_SIZE,

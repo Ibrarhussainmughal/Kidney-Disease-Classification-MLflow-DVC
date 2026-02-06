@@ -50,6 +50,8 @@ class DataValidationConfig:
     root_dir: Path
     STATUS_FILE: str
     ALL_REQUIRED_FILES: list
+    unzip_dir: Path
+
 
 
 @dataclass(frozen=True)
