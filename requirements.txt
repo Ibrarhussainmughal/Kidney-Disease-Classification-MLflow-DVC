@@ -1,13 +1,12 @@
-tensorflow==2.18.0
-pandas 
+pandas
 dvc
-mlflow==2.2.2
+mlflow>=2.9.0
 notebook
 numpy
 matplotlib
 seaborn
 python-box==6.0.2
-pyYAML
+PyYAML
 tqdm
 ensure==1.0.2
 joblib
@@ -20,4 +19,5 @@ pytest
 fastapi
 uvicorn
 python-multipart
--e .
+tensorflow==2.18.0
+#-e .

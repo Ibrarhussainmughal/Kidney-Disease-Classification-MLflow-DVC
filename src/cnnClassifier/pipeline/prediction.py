@@ -11,15 +11,14 @@ class PredictionPipeline:
         self.filename = filename
         self.config_manager = ConfigurationManager()
         self.prediction_config = self.config_manager.get_prediction_config()
+        # Load model once during initialization
+        self.model = load_model(self.prediction_config.model_path)
 
     def predict(self):
-        # load model using path from config
-        model = load_model(self.prediction_config.model_path)
-
-        # load and preprocess image using size from params
+        # image load and preprocess using size from params
         test_image = image.load_img(
             self.filename, 
-            target_size=self.prediction_config.params_image_size[:-1]
+            target_size=tuple(self.prediction_config.params_image_size[:-1])
         )
         test_image = image.img_to_array(test_image)
         test_image = np.expand_dims(test_image, axis=0)
@@ -27,7 +26,8 @@ class PredictionPipeline:
         # scale image if necessary (standard practice for VGG16)
         test_image = test_image / 255.0
 
-        result = np.argmax(model.predict(test_image), axis=1)
+        result = np.argmax(self.model.predict(test_image), axis=1)
+
         print(result)
 
         if result[0] == 1:

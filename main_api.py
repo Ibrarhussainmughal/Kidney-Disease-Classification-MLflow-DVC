@@ -7,7 +7,9 @@ import os
 import uvicorn
 from cnnClassifier.utils.common import decodeImage
 from cnnClassifier.pipeline.prediction import PredictionPipeline
+from cnnClassifier import logger
 from pydantic import BaseModel
+
 
 # Initialize FastAPI
 app = FastAPI(
@@ -31,9 +33,15 @@ templates = Jinja2Templates(directory="templates")
 class ClientApp:
     def __init__(self):
         self.filename = "inputImage.jpg"
-        self.classifier = PredictionPipeline(self.filename)
+        try:
+            self.classifier = PredictionPipeline(self.filename)
+            logger.info("PredictionPipeline initialized successfully.")
+        except Exception as e:
+            logger.error(f"Failed to initialize PredictionPipeline: {str(e)}")
+            self.classifier = None
 
 clApp = ClientApp()
+
 
 class ImageData(BaseModel):
     image: str
@@ -53,6 +61,10 @@ async def trainRoute():
 @app.post("/predict")
 async def predictRoute(data: ImageData):
     try:
+        if clApp.classifier is None:
+            # Try to re-initialize if it failed before
+            clApp.classifier = PredictionPipeline(clApp.filename)
+            
         image = data.image
         decodeImage(image, clApp.filename)
         result = clApp.classifier.predict()
@@ -63,6 +75,10 @@ async def predictRoute(data: ImageData):
 @app.post("/predict_image")
 async def predictImage(file: UploadFile = File(...)):
     try:
+        if clApp.classifier is None:
+            # Try to re-initialize if it failed before
+            clApp.classifier = PredictionPipeline(clApp.filename)
+
         # Save the uploaded file
         with open(clApp.filename, "wb") as f:
             f.write(await file.read())
